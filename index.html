@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ToDo Or Not toDo</title>
+    <link href="css/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <link href="css/index.css" rel="stylesheet">
+    <script src="js/jquery/jquery.min.js"></script>
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+</head>
+
+<body class="background">
+    <div class="container-fluid" id="app">
+        <div class="row  mypanel">
+            <div class="col-md-offset-1 col-md-2 nopadding">
+                <div class="leftpanel">
+                    <div class="user">
+                        <div class="userinfo">
+                            <div class="btn-group userbtnbox">
+                                <button type="button" class="btn dropdown-toggle userbtn" data-toggle="dropdown">
+                                    <div class="userhead"><img src="./images/head.jpg"></div>
+                                    <span class="username">{{userId}}</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-left usermenu" role="menu">
+                                    <li><a href="/logout">注销</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="listbox">
+                        <li class="listitem" :class="{'activate':(groupIndex===0)}" @click="groupIndex=0;SearchEvent(false)">
+                            <span class="glyphicon glyphicon-asterisk"></span>我的一天<span class="badge eventleft">{{GetNoDoneCount(myDay)}}</span>
+                        </li>
+                        <li class="listitem" :class="{'activate':(groupIndex===1)}" @click="groupIndex=1;SearchEvent(false)">
+                            <span class="glyphicon glyphicon-ok-circle"></span>To-Do<span class="badge eventleft">{{GetNoDoneCount(toDo)}}</span>
+                        </li>
+                        <li class="listitem" v-for="event,index in events" @click="ClickEvent(index);groupIndex=2;SearchEvent(false)" :class="{'activate':(index===eventIndex&&groupIndex===2)}">
+                            <span class="glyphicon glyphicon-th-list"></span>{{event.eventname}}<span class="badge eventleft">{{GetNoDoneCount(event)}}</span>
+                        </li>
+                        <li class="listitem" @click="AddEventList();getTempEventName();EditTitle(false);SearchEvent(false)">
+                            <span class="glyphicon glyphicon-plus"></span>创建清单
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-8 nopadding">
+                <div class="rightpanel">
+                    <div class="eventmenu" id="evemenu">
+                        <div class="eventbtnlist">
+                            <!-- 编辑下拉菜单 -->
+                            <div class="btn-group eventbtnfloat">
+                                <button type="button" class="btn dropdown-toggle eventlistbtn" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-stats eventbtntext"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <li @click="Sort()"><a href="#">按日期排序</a></li>
+                                    <li v-if="groupIndex===2" @click="EditTitle(false)"><a href="#">重命名清单</a></li>
+                                    <li v-if="groupIndex===2" @click="DeleteEventList()"><a href="#">删除清单</a></li>
+                                    <li class="divider"></li>
+                                    <li @click="HideDone"><a href="#">{{HideDoneBtnName()}}</a></li>
+                                </ul>
+                            </div>
+                            <!-- 编辑下拉菜单结束 -->
+                            <!-- 主题下拉菜单 -->
+                            <div class="btn-group eventbtnfloat">
+                                <button type="button" class="btn dropdown-toggle eventlistbtn" data-toggle="dropdown">
+                                    <span class="glyphicon glyphicon-heart eventbtntext"></span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <li class="menutitle">更换主题</li>
+                                    <li class="divider"></li>
+                                    <li v-for="theme,index in themes" @click="ChangeTheme(index)">
+                                        <a href="#">{{theme.themename}}</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <!-- 主题下拉菜单结束 -->
+                            <!-- 搜索开始 -->
+                            <div class="searchbox">
+                                <div class="btn-group eventbtnfloat">
+                                    <button type="button" class="btn eventlistbtn" @click="SearchEvent(!issearch)" :class="{'searchbtn':issearch}">
+                                        <span class="glyphicon glyphicon-search eventbtntext"></span>
+                                    </button>
+                                </div>
+                                <input type="text" id="searchtext" class="eventsearchtext" v-if="issearch" v-model="searchtext">
+                            </div>
+                            <!-- 搜索结束 -->
+                        </div>
+                        <div class="eventtitlebox">
+                            <div id="evetitle" class="eventtitle" v-if="isTitleEdit">
+                                <span v-if="!issearch" @click="EditTitle(false);getTempEventName()">{{GetEvent()}}</span>
+                                <span v-if="issearch">正在搜索"{{searchtext}}"</span>
+                            </div>
+                            <div class="eventtitle" v-else>
+                                <input type="text" id="titletext" class="form-control eventtitleedit" v-model.trim="tempEventName" @blur="EditTitle(true)" @keyup.Enter="EditTitle(true)">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="eventlist">
+                        <ul class="eventbox">
+                            <li v-if="!issearch&&(!(hidedone&&event.done))" v-for="event,index in GetEvents()" class="eventtextbox">
+                                <span class="glyphicon glyphicon-time eventicon" @click="Finish(index)" :class="{'glyphicon-ok-sign':event.done}"></span>
+                                <span class="eventtext" :class="{'eventfinish':event.done}">{{event.name}}</span>
+                                <span class="eventtext eventfrom" v-if="event.from!=''&&event.from!=null&&groupIndex===0">({{event.from}})</span>
+                                <span class="eventtexttime" v-if="event.time!==''" :class="{'eventtexttimeform':CompareTime(event.time,GetToday())}">{{event.time}}</span>
+                                <span class="glyphicon glyphicon-th-large seteventicon" @click="SetTempEdit(index,event.name,event.time)" data-toggle="modal" data-target="#editevent"></span>
+                            </li>
+                            <li v-if="!issearch" class="eventtexteditbox">
+                                <div class="addbtnbox">
+                                    <span class="glyphicon glyphicon-plus eventicon" @click="AddEvent"></span>
+                                </div>
+                                <div class="addbox">
+                                    <input type="text" class="addevent" placeholder="添加待办事项" v-model.trim="aEvent.name" @keyup.Enter="AddEvent">
+                                </div>
+                            </li>
+
+                            <li v-if="issearch&&(!(hidedone&&event.done))" v-for="event,index in GetSearchEvent()" class="eventtextbox">
+                                <span class="glyphicon glyphicon-time eventicon" :class="{'glyphicon-ok-sign':event.done}"></span>
+                                <span class="eventtext" :class="{'eventfinish':event.done}">{{event.name}}&nbsp;&nbsp;({{event.from}})</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 编辑代办事项对话框 -->
+        <div class="modal fade" id="editevent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="butto n" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+                        <h4 class="modal-title" id="myModalLabel">
+                            设置代办事项
+                        </h4>
+                        <input type="text" class="form-control" v-model.trim="tempEditEventName">
+                    </div>
+                    <div class="modal-body">
+                        <button class="btn btn-block" v-if="groupIndex!==0" @click="AddToMyDay(tempEditEventIndex)">{{tempAddToMyDayBtn}}</button>
+
+                        <span>添加截至日期</span>
+                        <input type="date" class="form-control date" v-model="tempEditEventTime">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            关闭
+                        </button>
+                        <button v-if="groupIndex>=1" type="button" class="btn btn-danger" data-dismiss="modal" @click="DeleteEvent(tempEditEventIndex)">
+                            删除
+                        </button>
+                        <button v-else type="button" class="btn btn-danger" data-dismiss="modal" @click="DeleteEvent(tempEditEventIndex)">
+                            从“我的一天”中删除
+                        </button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="ChangeEvent()">
+					        确认更改
+				        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 代办事项对话框结束 -->
+
+    </div>
+
+    <script src="https://cdn.bootcss.com/vue/2.5.16/vue.js"></script>
+    <script src="js/indexvue.js">
+    </script>
+</body>
+
+</html>

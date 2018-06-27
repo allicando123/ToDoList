@@ -1,0 +1,338 @@
+.background {
+    background-image: url(../images/indexback.jpg);
+    background-size: 100%;
+}
+
+.mypanel {
+    margin-top: 80px;
+}
+
+.nopadding {
+    padding: 0;
+}
+
+
+/* .container-fluid {
+    min-height: 800px;
+} */
+
+.leftpanel {
+    height: 100%;
+    background-color: #FFFFFF;
+    min-height: 600px;
+}
+
+.rightpanel {
+    height: 100%;
+    width: 100%;
+    background-color: #FFFFFF;
+    min-height: 600px;
+}
+
+.user {
+    width: 100%;
+    height: 60px;
+    box-sizing: border-box;
+}
+
+.userinfo {
+    background: #aabbcc;
+    height: 100%;
+}
+
+.userhead {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: rgb(59, 132, 206);
+    float: left;
+}
+
+.userbtnbox {
+    width: 100%;
+    height: 100%;
+}
+
+.userbtn {
+    width: 100%;
+    height: 100%;
+    padding: 10px 5px;
+}
+
+.userbtn:hover {
+    background-color: rgba(200, 200, 200, 0.5)
+}
+
+.usermenu {
+    min-width: 200px;
+}
+
+.userhead img {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+}
+
+.username {
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    float: left;
+    margin-left: 10px;
+}
+
+.listbox {
+    width: 100%;
+    font-size: 20px;
+    padding: 0px;
+}
+
+.listitem {
+    list-style: none;
+    background: #FFFFFF;
+    height: 40px;
+    line-height: 40px;
+    cursor: pointer;
+    padding: 0 20px;
+    transition: 0.2s;
+}
+
+.listitem:hover {
+    background-color: rgba(9, 94, 179, 0.5);
+}
+
+.listitemcount {
+    float: right;
+}
+
+.activate {
+    background-color: rgba(35, 85, 134, 0.5);
+}
+
+.activate .badge {
+    background-color: #FFFFFF;
+    color: #000000;
+}
+
+.badge {
+    background-color: #4b7fdf;
+    color: #FFFFFF;
+}
+
+.glyphicon {
+    margin-right: 10px;
+}
+
+.eventmenu {
+    height: 150px;
+    background-color: #4b7fdf;
+}
+
+.eventtitlebox {
+    padding-top: 10px;
+}
+
+.eventtitle {
+    font-size: 40px;
+    font-weight: bold;
+    color: #FFFFFF;
+    padding-left: 20px;
+    width: auto;
+}
+
+.eventbtnlist {
+    padding: 10px 20px;
+    height: 70px;
+}
+
+.eventbtnfloat {
+    float: right;
+    margin-right: 10px;
+}
+
+.eventlistbtn {
+    width: 60px;
+    height: 50px;
+    line-height: 50px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.searchbox {
+    height: 50px;
+    float: right;
+}
+
+.searchbtn {
+    border-radius: 0 5px 5px 0;
+}
+
+.eventsearchtext {
+    height: 100%;
+    border-radius: 5px 0 0 5px;
+    border: 0px;
+    font-size: 30px;
+    width: 200px;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #FFFFFF;
+    padding: 0 5px;
+}
+
+.eventsearchtext::selection {
+    background-color: #FFFFFF;
+}
+
+.eventlistbtn:hover {
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.eventbtntext {
+    font-size: 30px;
+    color: #FFFFFF;
+}
+
+.eventlist {
+    width: 100%;
+}
+
+.eventleft {
+    float: right;
+    /* line-height: 40px; */
+    margin-top: 10px;
+}
+
+.eventbox {
+    padding: 0 5px;
+    list-style: none;
+}
+
+.eventtextbox {
+    cursor: default;
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    padding: 0 15px;
+}
+
+.eventtextbox:hover {
+    background-color: #ccddee;
+}
+
+.eventtexteditbox {
+    padding: 0 15px;
+    line-height: 50px;
+    height: 50px;
+}
+
+.menutitle {
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: default;
+}
+
+.glyphicon-ok-sign {
+    color: #02945c;
+}
+
+.eventicon {
+    font-size: 25px;
+    /* vertical-align: middle; */
+    line-height: 50px;
+}
+
+.eventicon:hover {
+    cursor: pointer;
+}
+
+.eventfinish {
+    text-decoration: line-through;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.seteventicon {
+    font-size: 25px;
+    /* vertical-align: middle; */
+    float: right;
+    line-height: 50px;
+    color: #314daa;
+}
+
+.seteventicon:hover {
+    cursor: pointer;
+}
+
+.eventtext {
+    cursor: default;
+    font-size: 20px;
+}
+
+.eventfrom {
+    color: #1295ac;
+}
+
+.eventtexttime {
+    margin-left: 10px;
+    color: #4b7fdf;
+}
+
+.eventtexttimeform {
+    color: #ee4f05
+}
+
+.date::-webkit-datetime-edit-year-field::selection {
+    background-color: none;
+}
+
+.date::-webkit-inner-spin-button {
+    visibility: hidden;
+}
+
+.addbox {
+    float: left;
+    height: 50px;
+    width: 80%;
+}
+
+.addevent {
+    background: transparent;
+    height: 30px;
+    font-size: 25px;
+    padding: 0px;
+    border: 0px;
+    vertical-align: middle;
+    outline: none;
+    width: 100%;
+    /* display: inline; */
+    border-radius: 5px;
+}
+
+.addevent::selection {
+    background-color: rgba(20, 20, 20, 0.5);
+    color: #FFFFFF;
+}
+
+.addbtnbox {
+    width: 40px;
+    height: 50px;
+    float: left;
+}
+
+.addeventbtn {
+    background-color: transparent;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    outline: none;
+    border: none;
+}
+
+.eventtitleedit {
+    font-size: 40px;
+    color: #FFFFFF;
+    height: 55px;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.eventtitleedit::selection {
+    background-color: rgba(255, 255, 255, 0.2);
+}
